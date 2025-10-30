@@ -1,59 +1,139 @@
-# Air-mouse--gesture-control
-Control your mouse pointer with natural hand gestures trained on Single Shot Detector built on MobileNet.
+# Gesture Control Air-Mouse
 
-### Outcome: 
-  * Keep pinched for moving the mouse around
-  * Lift index finger for single click
-  * Lift index and middle finger together for double click
-<br>
-<img src="https://github.com/wolf-hash/Air-mouse--gesture-control/blob/main/screenshots/airmouse.gif" width="850" height="400" />
- 
- *Loss over the Training period*
-<img src="https://github.com/wolf-hash/Air-mouse--gesture-control/blob/main/screenshots/Loss.jpg" width="500" height="400" />
- 
+This project uses a standard webcam and the TensorFlow Object Detection API to control your computer's mouse with hand gestures. It recognizes different hand poses in real-time to move the cursor, left-click, and right-click.
 
-## Installation: 
-```
-git clone https://github.com/wolf-hash/Air-mouse--gesture-control.git
-cd Air-mouse--gesture-control
-```
+> **Note:** Replace the image below with a GIF of your project in action!
+> ![Air-Mouse in Action](https://placehold.co/600x400/2d3748/e2e8f0?text=Your+Project+Demo+GIF)
 
-### Install Preliminaries
-   #### Object Detection API (Required):
-```
+## Features
+
+* **Mouse Movement:** Use a 'pinch' gesture to move the cursor.
+* **Left Click:** Use a 'single' finger gesture.
+* **Right Click:** Use a 'double' finger gesture.
+* **Real-time:** All detection and control happens in real-time via your webcam.
+* **Visualization:** An OpenCV window shows your webcam feed with the detection boxes overlaid (can be toggled).
+
+## Technology Stack
+
+* **Python 3.10**
+* **TensorFlow 2 Object Detection API**
+* **OpenCV** (for webcam capture and display)
+* **PyAutoGUI** (for mouse control)
+
+---
+
+## Installation Guide (Corrected & Verified)
+
+This project has very specific dependencies. These steps have been verified to resolve all common build and version conflicts (like `protobuf` and C++ build errors).
+
+### 1. Prerequisites
+
+You must install these tools on your system first.
+
+1.  **Git:** Download and install from [git-scm.com](https://git-scm.com/).
+
+2.  **Python 3.10:** This is critical. **Do not use Python 3.11 or newer**, as it will cause build failures.
+    * Download and install **Python 3.10** from the [official site](https://www.python.org/downloads/windows/).
+    * **Important:** During installation, check the box that says **"Add Python 3.10 to PATH"**.
+
+3.  **Protocol Buffer Compiler (`protoc`) v3.19.6:**
+    * Go to the [protoc v3.19.6 release page](https://github.com/protocolbuffers/protobuf/releases/tag/v3.19.6).
+    * Download `protoc-3.19.6-win64.zip`.
+    * Create a new folder on your computer, e.g., `C:\protoc`.
+    * Unzip the file and copy the `bin` and `include` folders into `C:\protoc`.
+    * Add this folder to your Windows System Environment **`PATH`** variable: `C:\protoc\bin`
+
+### 2. Clone Repositories
+
+1.  Clone this repository from your GitHub account:
+    ```powershell
+    git clone [https://github.com/clawalone/gesture-control-mouse.git](https://github.com/clawalone/gesture-control-mouse.git)
+    cd gesture-control-mouse
+    ```
+
+2.  Clone the TensorFlow Models repository into the `API` folder, as required by the script:
+    ```powershell
     mkdir API
     cd API
-    git clone https://github.com/tensorflow/models.git
+    git clone [https://github.com/tensorflow/models.git](https://github.com/tensorflow/models.git)
+    ```
+
+### 3. Setup Environment & Install Dependencies
+
+This is the most important part. We will install all packages in a specific order to avoid conflicts.
+
+1.  Navigate to the `models/research` directory:
+    ```powershell
     cd models/research
+    ```
+
+2.  Create a Python virtual environment:
+    ```powershell
+    python -m venv venv
+    ```
+
+3.  Activate the environment:
+    ```powershell
+    .\venv\Scripts\activate
+    ```
+    *(Your terminal prompt should now start with `(venv)`)*
+
+4.  Upgrade `pip` (the Python package manager):
+    ```powershell
+    python -m pip install --upgrade pip
+    ```
+
+5.  **Install the "Golden Key" Dependencies:**
+    We install these *first* to prevent all the build errors you faced. This combination is known to be stable.
+    ```powershell
+    pip install "protobuf==3.19.6"
+    pip install "Cython<3.0"
+    pip install PyYAML==5.3.1
+    ```
+
+6.  **Compile the Protobuf Files:**
+    Now that we have the right compiler (`protoc 3.19.6`) and library (`protobuf 3.19.6`), we can compile the files.
+    ```powershell
     protoc object_detection/protos/*.proto --python_out=.
+    ```
+
+7.  **Install the TensorFlow Object Detection API:**
+    ```powershell
     cp object_detection/packages/tf2/setup.py .
-    python -m pip install --use-feature=2020-resolver .
-```
+    python -m pip install .
+    ```
 
-   #### Install model of choice from Tensorflow Zoo (Only for training):
-     Go to https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf2_detection_zoo.md
-     Download model of choice
-     Single Shot Detector of MobileNet(320x320) is given in the pre-trained directory, however one can experiment on different models.
-     Extract it to Air-mouse--gesture-control/pre-trained
-     
-  #### Install LabelImg for labelling custom dataset (Only for training):
-  **Link** - https://github.com/tzutalin/labelImg
- ```
-    git clone https://github.com/tzutalin/labelImg
- ```
-   **For Linux**: 
-``` 
-    sudo apt-get install pyqt5-dev-tools
-    sudo pip3 install -r requirements/requirements-linux-python3.txt
-    make qt5py3
-    python3 labelImg.py
-```
+8.  **Install Project Dependencies:**
+    Finally, go back to your project's root folder and install `OpenCV` and `PyAutoGUI`.
+    ```powershell
+    cd ..\..\..
+    ```
+    *(You should be back in your `gesture-control-mouse` folder)*
+    ```powershell
+    pip install opencv-python pyautogui
+    ```
 
-### Run from pretrained model:
-```
-    conda create -n airmouse pip python=3.7.6
-    conda activate airmouse
-    pip install -r requirements.txt
-    
+You are now fully set up and all dependencies are installed correctly.
+
+---
+
+## How to Run
+
+1.  Make sure your virtual environment is active:
+    ```powershell
+    .\API\models\research\venv\Scripts\activate
+    ```
+
+2.  Run the main script:
+    ```powershell
     python main.py
-```
+    ```
+
+3.  An OpenCV window will open, showing your webcam. The script will now track your hand and control your mouse.
+
+4.  To stop the program, click on the OpenCV window and press the **'q'** key.
+
+## Acknowledgments
+
+* This project is based on the original [Air-mouse--gesture-control](https://github.com/wolf-hash/Air-mouse--gesture-control) by **wolf-hash**.
+* Hand detection models and utilities are provided by the [TensorFlow 2 Object Detection API](https://github.com/tensorflow/models/tree/master/research/object_detection).
