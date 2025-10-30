@@ -2,9 +2,6 @@
 
 This project uses a standard webcam and the TensorFlow Object Detection API to control your computer's mouse with hand gestures. It recognizes different hand poses in real-time to move the cursor, left-click, and right-click.
 
-> **Note:** Replace the image below with a GIF of your project in action!
-> ![Air-Mouse in Action](https://placehold.co/600x400/2d3748/e2e8f0?text=Your+Project+Demo+GIF)
-
 ## Features
 
 * **Mouse Movement:** Use a 'pinch' gesture to move the cursor.
@@ -132,8 +129,3 @@ You are now fully set up and all dependencies are installed correctly.
 3.  An OpenCV window will open, showing your webcam. The script will now track your hand and control your mouse.
 
 4.  To stop the program, click on the OpenCV window and press the **'q'** key.
-
-## Acknowledgments
-
-* This project is based on the original [Air-mouse--gesture-control](https://github.com/wolf-hash/Air-mouse--gesture-control) by **wolf-hash**.
-* Hand detection models and utilities are provided by the [TensorFlow 2 Object Detection API](https://github.com/tensorflow/models/tree/master/research/object_detection).
